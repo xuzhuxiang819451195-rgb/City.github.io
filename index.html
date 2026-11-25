@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>测测哪座城市最适合你定居 · 40题趣味人格测试</title>
+  <style>
+    :root {
+      --bg-page: #f5f3ee;
+      --bg-card: #ffffff;
+      --bg-soft: #ebe7de;
+      --bg-tint: #eef4f1;
+      --text-main: #1d2623;
+      --text-sub: #54615c;
+      --text-muted: #84908b;
+      --primary: #2d6a5b;
+      --primary-hover: #235448;
+      --primary-light: #e2efe9;
+      --accent: #d97757;
+      --accent-light: #fdf0eb;
+      --border: #e3dfd5;
+      --shadow-sm: 0 4px 14px rgba(29, 38, 35, 0.05);
+      --shadow-md: 0 12px 32px rgba(29, 38, 35, 0.08);
+      --shadow-lg: 0 20px 48px rgba(29, 38, 35, 0.12);
+      --radius-sm: 12px;
+      --radius-md: 18px;
+      --radius-lg: 26px;
+      --transition: 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      min-height: 100%;
+      background-color: var(--bg-page);
+      background-image:
+        radial-gradient(circle at 12% 14%, rgba(45, 106, 91, 0.08) 0%, transparent 42%),
+        radial-gradient(circle at 88% 82%, rgba(217, 119, 87, 0.08) 0%, transparent 42%);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 16px 36px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .view {
+      display: none;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .view.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Card base */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid rgba(227, 223, 213, 0.85);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 36px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Home View */
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      margin-bottom: 20px;
+    }
+
+    .home-title {
+      font-size: clamp(26px, 5vw, 36px);
+      font-weight: 800;
+      line-height: 1.28;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      margin-bottom: 14px;
+    }
+
+    .home-title span {
+      color: var(--primary);
+      position: relative;
+    }
+
+    .home-subtitle {
+      font-size: 15.5px;
+      color: var(--text-sub);
+      margin-bottom: 26px;
+      line-height: 1.7;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .meta-item {
+      background: var(--bg-page);
+      border-radius: var(--radius-sm);
+      padding: 14px 12px;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .meta-num {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--primary);
+      display: block;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .meta-label {
+      font-size: 12px;
+      color: var(--text-sub);
+      font-weight: 500;
+    }
+
+    .dimension-preview {
+      background: var(--bg-tint);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin-bottom: 28px;
+      border: 1px solid rgba(45, 106, 91, 0.12);
+    }
+
+    .dimension-preview-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .soft-tag {
+      font-size: 12.5px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--text-main);
+      border: 1px solid rgba(45, 106, 91, 0.14);
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      width: 100%;
+      border: none;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 16px 24px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 20px rgba(45, 106, 91, 0.24);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(45, 106, 91, 0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 11px 18px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--bg-page);
+      border-color: #cfc9bc;
+    }
+
+    .btn-secondary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .disclaimer-note {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 16px;
+    }
+
+    /* Quiz View */
+    .quiz-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      gap: 12px;
+    }
+
+    .chapter-badge {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 5px 12px;
+      border-radius: 999px;
+    }
+
+    .progress-text {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-sub);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: var(--bg-soft);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), #4d9480);
+      border-radius: 999px;
+      transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .question-stage {
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+
+    .question-stage.switching {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+
+    .question-num-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .question-title {
+      font-size: clamp(19px, 3.6vw, 22px);
+      font-weight: 700;
+      line-height: 1.48;
+      color: var(--text-main);
+      margin-bottom: 22px;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      background: var(--bg-page);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 15px 18px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: var(--text-main);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .option-btn:hover {
+      border-color: var(--primary);
+      background: #f9fbfa;
+      transform: translateY(-1px);
+    }
+
+    .option-btn.selected {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      box-shadow: 0 4px 14px rgba(45, 106, 91, 0.14);
+    }
+
+    .option-key {
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-sub);
+      margin-top: 1px;
+      transition: var(--transition);
+    }
+
+    .option-btn.selected .option-key {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    .quiz-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .quiz-hint {
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    /* Loading View */
+    .loading-card {
+      text-align: center;
+      padding: 56px 28px;
+    }
+
+    .compass-spinner {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 22px;
+      border-radius: 50%;
+      border: 3px solid var(--primary-light);
+      border-top-color: var(--primary);
+      animation: spin 1s linear infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .loading-sub {
+      font-size: 14px;
+      color: var(--text-sub);
+    }
+
+    /* Result View */
+    .result-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Poster / Screenshot-friendly Hero Card */
+    .poster-card {
+      border-radius: var(--radius-lg);
+      padding: 30px 28px;
+      color: #ffffff;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      transition: background 0.35s ease;
+    }
+
+    .poster-card::after {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      top: -80px;
+      right: -60px;
+      pointer-events: none;
+    }
+
+    .poster-card::before {
+      content: "";
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      bottom: -50px;
+      left: -40px;
+      pointer-events: none;
+    }
+
+    .poster-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .poster-kicker {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      opacity: 0.88;
+      text-transform: uppercase;
+    }
+
+    .match-badge {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+    }
+
+    .poster-city-row {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .poster-city-name {
+      font-size: clamp(34px, 7vw, 44px);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      line-height: 1.15;
+    }
+
+    .poster-city-archetype {
+      font-size: 15px;
+      font-weight: 600;
+      opacity: 0.92;
+      background: rgba(255, 255, 255, 0.16);
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .poster-quote {
+      margin: 18px 0 22px;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.14);
+      border-left: 3px solid rgba(255, 255, 255, 0.85);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 15.5px;
+      font-weight: 600;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    .city-attrs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .city-attr {
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+    }
+
+    .city-attr-label {
+      font-size: 11px;
+      opacity: 0.82;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .city-attr-val {
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+
+    .poster-watermark {
+      margin-top: 18px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      opacity: 0.82;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Detail Sections */
+    .detail-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px 26px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .section-heading {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .section-icon.warm {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .section-body {
+      font-size: 14.5px;
+      color: var(--text-sub);
+      line-height: 1.75;
+    }
+
+    .traits-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .trait-row {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .trait-labels {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-sub);
+    }
+
+    .trait-center-name {
+      color: var(--text-main);
+      font-weight: 700;
+    }
+
+    .trait-bar-track {
+      height: 8px;
+      background: var(--bg-page);
+      border-radius: 999px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .trait-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #5ea892);
+      border-radius: 999px;
+      transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .egg-box {
+      background: var(--accent-light);
+      border: 1px dashed rgba(217, 119, 87, 0.45);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      color: #5b3324;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .runner-up-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .runner-up-item {
+      background: var(--bg-page);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+
+    .runner-up-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .runner-up-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .runner-up-score {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .runner-up-desc {
+      font-size: 12.5px;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    .result-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .btn-accent {
+      border: none;
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 14.5px;
+      font-weight: 700;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 6px 16px rgba(217, 119, 87, 0.24);
+    }
+
+    .btn-accent:hover {
+      background: #c86647;
+      transform: translateY(-1px);
+    }
+
+    /* Share Modal (Xiaohongshu / Moments Screenshot Card) */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 26, 24, 0.65);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 100;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 420px;
+      max-height: 92vh;
+      overflow-y: auto;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .share-poster {
+      border-radius: 24px;
+      padding: 28px 24px;
+      color: #ffffff;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .share-poster-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      opacity: 0.88;
+      margin-bottom: 18px;
+    }
+
+    .share-poster-city {
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 6px;
+    }
+
+    .share-poster-sub {
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0.9;
+      margin-bottom: 16px;
+    }
+
+    .share-poster-quote {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 14.5px;
+      font-weight: 600;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .share-poster-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 16px;
+    }
+
+    .share-poster-pill {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      font-weight: 600;
+    }
+
+    .share-poster-summary {
+      font-size: 12.5px;
+      line-height: 1.65;
+      opacity: 0.92;
+      background: rgba(0, 0, 0, 0.14);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+
+    .share-poster-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      opacity: 0.8;
+      border-top: 1px dashed rgba(255, 255, 255, 0.28);
+      padding-top: 12px;
+    }
+
+    .modal-controls {
+      display: flex;
+      gap: 10px;
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 16px;
+    }
+
+    .modal-controls button {
+      flex: 1;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: rgba(29, 38, 35, 0.92);
+      color: #ffffff;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+      z-index: 200;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 560px) {
+      .app-shell {
+        padding: 14px 12px 28px;
+        justify-content: flex-start;
+      }
+      .card {
+        padding: 24px 20px;
+        border-radius: 22px;
+      }
+      .meta-grid {
+        gap: 8px;
+      }
+      .meta-item {
+        padding: 11px 6px;
+      }
+      .meta-num {
+        font-size: 18px;
+      }
+      .poster-card {
+        padding: 24px 20px;
+      }
+      .detail-card {
+        padding: 20px 18px;
+      }
+      .city-attrs-grid,
+      .runner-up-grid,
+      .result-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <main class="container">
+
+      <!-- 1. 首页 -->
+      <section id="view-home" class="view active" aria-label="测试首页">
+        <div class="card">
+          <div class="brand-pill">
+            <span>🧭</span>
+            <span>城市灵魂栖息地研究所</span>
+          </div>
+          <h1 class="home-title">测测<span>哪座城市</span>最适合你定居</h1>
+          <p class="home-subtitle">
+            不考地理常识，也不做严肃心理诊断。从你起床后的第一口呼吸、周末的逛街习惯、情绪落雨时的反应，到深夜想吃的那一口热汤，40道生活切片，帮你找到与你性格频率最合拍的中国城市。
+          </p>
+
+          <div class="meta-grid">
+            <div class="meta-item">
+              <span class="meta-num">40题</span>
+              <span class="meta-label">生活化单选</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-num">12城</span>
+              <span class="meta-label">大小宝藏城市</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-num">6维度</span>
+              <span class="meta-label">方位·气候·人文·味觉</span>
+            </div>
+          </div>
+
+          <div class="dimension-preview">
+            <div class="dimension-preview-title">✨ 本次测试将综合评估你的生活频率</div>
+            <div class="tag-cloud">
+              <span class="soft-tag">日常节律（松弛 vs 进取）</span>
+              <span class="soft-tag">社交光谱（烟火 vs 独处）</span>
+              <span class="soft-tag">气候体感（温润 vs 干爽）</span>
+              <span class="soft-tag">人文气质（古韵 vs 摩登）</span>
+              <span class="soft-tag">味蕾偏好（清鲜 vs 江湖）</span>
+              <span class="soft-tag">空间向往（山海 vs 霓虹）</span>
+            </div>
+          </div>
+
+          <button id="btn-start" class="btn-primary" type="button">
+            <span>开始测试</span>
+            <span>→</span>
+          </button>
+          <p class="disclaimer-note">纯本地前端运行 · 约需 3 分钟 · 仅供趣味参考与生活灵感</p>
+        </div>
+      </section>
+
+      <!-- 2. 答题页 -->
+      <section id="view-quiz" class="view" aria-label="答题页面">
+        <div class="card">
+          <div class="quiz-topbar">
+            <span id="chapter-badge" class="chapter-badge">第一章 · 日常节律</span>
+            <span id="progress-text" class="progress-text">1 / 40</span>
+          </div>
+          <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="2">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+
+          <div id="question-stage" class="question-stage">
+            <div id="question-num-label" class="question-num-label">QUESTION 01</div>
+            <h2 id="question-title" class="question-title">题目加载中...</h2>
+            <div id="options-list" class="options-list"></div>
+          </div>
+
+          <div class="quiz-footer">
+            <button id="btn-prev" class="btn-secondary" type="button">← 上一题</button>
+            <span class="quiz-hint">点击选项自动进入下一题</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. 结算过渡页 -->
+      <section id="view-loading" class="view" aria-label="正在匹配">
+        <div class="card loading-card">
+          <div class="compass-spinner">
+            <span style="font-size: 26px;">🧭</span>
+          </div>
+          <h2 class="loading-title">正在校准你的城市经纬度…</h2>
+          <p class="loading-sub">综合分析 40 个生活切片 · 匹配方位、气候、人文与味觉频率</p>
+        </div>
+      </section>
+
+      <!-- 4. 结果页 -->
+      <section id="view-result" class="view" aria-label="测试结果">
+        <div class="result-wrapper">
+          <!-- 截图分享主视觉卡 -->
+          <div id="poster-card" class="poster-card">
+            <div class="poster-top">
+              <span class="poster-kicker">城市灵魂栖息地报告</span>
+              <span id="res-match-badge" class="match-badge">契合度 94%</span>
+            </div>
+            <div class="poster-city-row">
+              <h2 id="res-city-name" class="poster-city-name">成都</h2>
+              <span id="res-city-archetype" class="poster-city-archetype">西南巴适派</span>
+            </div>
+            <blockquote id="res-quote" class="poster-quote"></blockquote>
+            <div class="city-attrs-grid">
+              <div class="city-attr">
+                <span class="city-attr-label">📍 地理方位</span>
+                <span id="res-direction" class="city-attr-val">西南盆地</span>
+              </div>
+              <div class="city-attr">
+                <span class="city-attr-label">🌤️ 气候体感</span>
+                <span id="res-climate" class="city-attr-val">温润多云</span>
+              </div>
+              <div class="city-attr">
+                <span class="city-attr-label">🏮 人文气质</span>
+                <span id="res-culture" class="city-attr-val">闲适烟火</span>
+              </div>
+              <div class="city-attr">
+                <span class="city-attr-label">🍜 美食灵魂</span>
+                <span id="res-food" class="city-attr-val">麻辣鲜香</span>
+              </div>
+            </div>
+            <div class="poster-watermark">
+              <span>《测测哪座城市最适合你定居》</span>
+              <span>40题人格匹配</span>
+            </div>
+          </div>
+
+          <!-- 6维度图谱 -->
+          <div class="detail-card">
+            <h3 class="section-heading">
+              <span class="section-icon">📊</span>
+              <span>你的 6 维生活频率</span>
+            </h3>
+            <div id="traits-bars" class="traits-bars"></div>
+          </div>
+
+          <!-- 城市特点 & 匹配理由 -->
+          <div class="detail-card">
+            <h3 class="section-heading">
+              <span class="section-icon">🏙️</span>
+              <span>城市特点与匹配理由</span>
+            </h3>
+            <p id="res-features" class="section-body" style="margin-bottom: 14px;"></p>
+            <p id="res-reason" class="section-body"></p>
+          </div>
+
+          <!-- 隐藏优势 & 趣味彩蛋 -->
+          <div class="detail-card">
+            <h3 class="section-heading">
+              <span class="section-icon">✨</span>
+              <span>你在这里的隐藏优势</span>
+            </h3>
+            <p id="res-advantage" class="section-body" style="margin-bottom: 20px;"></p>
+
+            <h3 class="section-heading">
+              <span class="section-icon warm">🎁</span>
+              <span>定居趣味彩蛋</span>
+            </h3>
+            <div id="res-egg" class="egg-box"></div>
+          </div>
+
+          <!-- 备选灵魂城市 -->
+          <div class="detail-card">
+            <h3 class="section-heading">
+              <span class="section-icon">🗺️</span>
+              <span>同样合拍的备选城市</span>
+            </h3>
+            <div id="runner-up-grid" class="runner-up-grid"></div>
+          </div>
+
+          <!-- 操作区 -->
+          <div class="result-actions">
+            <button id="btn-share-card" class="btn-accent" type="button">📸 截图分享卡片（小红书/朋友圈）</button>
+            <button id="btn-copy-text" class="btn-secondary" type="button">📋 复制专属文案</button>
+          </div>
+          <button id="btn-restart" class="btn-primary" type="button">🔄 重新测试</button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- 小红书 / 朋友圈竖版截图卡片弹窗 -->
+  <div id="share-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="分享海报卡片">
+    <div class="modal-sheet">
+      <div id="share-poster" class="share-poster">
+        <div class="share-poster-header">
+          <span>🌿 灵魂定居城市测试</span>
+          <span id="modal-match-score">契合度 94%</span>
+        </div>
+        <div id="modal-city-name" class="share-poster-city">成都</div>
+        <div id="modal-city-archetype" class="share-poster-sub">西南巴适派 · 西南盆地</div>
+        <div id="modal-quote" class="share-poster-quote"></div>
+        <div id="modal-pills" class="share-poster-pills"></div>
+        <div id="modal-summary" class="share-poster-summary"></div>
+        <div class="share-poster-footer">
+          <span>直接手机截图即可分享</span>
+          <span>40题生活人格匹配</span>
+        </div>
+      </div>
+      <div class="modal-controls">
+        <button id="btn-modal-copy" class="btn-secondary" type="button">复制分享文案</button>
+        <button id="btn-modal-close" class="btn-primary" type="button" style="padding: 11px 16px; font-size: 14px;">关闭卡片</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">已复制到剪贴板</div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      // 6大核心维度：
+      // pace(0=松弛漫步, 100=高效进取)
+      // social(0=独处自洽, 100=市井烟火)
+      // climate(0=朗阔干爽, 100=温润暖湿)
+      // culture(0=古韵烟火, 100=摩登先锋)
+      // flavor(0=清鲜本味, 100=热烈江湖)
+      // landscape(0=山野湖海, 100=都市霓虹)
+
+      const DIMENSIONS = [
+        { key: "pace", name: "生活节律", left: "松弛漫步", right: "高效进取" },
+        { key: "social", name: "社交温度", left: "独处自洽", right: "市井烟火" },
+        { key: "climate", name: "气候体感", left: "朗阔干爽", right: "温润暖湿" },
+        { key: "culture", name: "人文气质", left: "古韵沉淀", right: "摩登先锋" },
+        { key: "flavor", name: "味蕾偏好", left: "清鲜本味", right: "热烈江湖" },
+        { key: "landscape", name: "空间向往", left: "山野湖海", right: "都市霓虹" }
+      ];
+
+      // 40道生活化单选题（无任何城市/知识考题）
+      const QUESTIONS = [
+        // 第一章：日常习惯 (1-8)
+        {
+          chapter: "第一章 · 日常节律",
+          q: "休息日没有闹钟的情况下，你自然醒来的理想状态是？",
+          options: [
+            { text: "睡到自然醒，在床上刷会手机再慢悠悠吃顿早午饭", s: { pace: -2, social: -1, climate: 1 } },
+            { text: "八点前准时醒来，趁空气清爽出门买早餐或跑个步", s: { pace: 2, climate: -1, landscape: -1 } },
+            { text: "醒来后先煮杯咖啡或泡壶茶，听着歌发呆二十分钟", s: { pace: -1, culture: 2, social: -2 } },
+            { text: "直接睡到中午，晚上才是我的黄金活跃时间", s: { pace: 0, flavor: 2, landscape: 2 } }
+          ]
+        },
+        {
+          chapter: "第一章 · 日常节律",
+          q: "下班或放学回家的路上，哪种街景最能瞬间治愈你？",
+          options: [
+            { text: "夕阳把整条笔直宽阔的马路染成金色，视野极度开阔", s: { climate: -2, landscape: -1, culture: -1 } },
+            { text: "梧桐树影斑驳的小马路，路边有亮着暖黄灯光的咖啡馆", s: { culture: 2, climate: 1, pace: -1 } },
+            { text: "冒着热气的小吃摊和菜市场，摊主大声招呼着熟客", s: { social: 2, flavor: 2, culture: -2 } },
+            { text: "玻璃幕墙折射着晚霞，地铁口人潮涌动却秩序井然", s: { pace: 2, landscape: 2, culture: 2 } }
+          ]
+        },
+        {
+          chapter: "第一章 · 日常节律",
+          q: "关于居住环境里的“天气”，你最受不了哪一种？",
+          options: [
+            { text: "空气太干燥，一觉醒来喉咙发干、皮肤起皮", s: { climate: 3 } },
+            { text: "连续一周阴雨绵绵，衣服晒不干，整个人发霉", s: { climate: -3 } },
+            { text: "冬天没有暖气，室内比室外还阴冷刺骨", s: { climate: -2, social: 1 } },
+            { text: "夏天热得像蒸桑拿，走两步就大汗淋漓", s: { climate: -2, landscape: -1 } }
+          ]
+        },
+        {
+          chapter: "第一章 · 日常节律",
+          q: "如果租房或买房，只能优先满足一个条件，你会选？",
+          options: [
+            { text: "楼下步行五分钟内有地铁站、24小时便利店和外卖江湖", s: { pace: 2, landscape: 2 } },
+            { text: "推开窗能看见山影、湖面或成片的大树，哪怕远一点", s: { landscape: -3, pace: -1 } },
+            { text: "有个能晒太阳、吹风、养花种草的宽敞阳台", s: { climate: -1, pace: -2, social: -1 } },
+            { text: "老小区但生活气息极浓，楼下就是宝藏早餐铺", s: { social: 2, culture: -2, flavor: 1 } }
+          ]
+        },
+        {
+          chapter: "第一章 · 日常节律",
+          q: "晚上十点半突然有点饿，你大概率会怎么做？",
+          options: [
+            { text: "叫上朋友或自己下楼，找个烟火气十足的夜宵摊撸串喝两杯", s: { flavor: 3, social: 2 } },
+            { text: "去便利店买个关东煮或饭团，边走边吃顺便吹吹夜风", s: { landscape: 2, pace: 1, social: -1 } },
+            { text: "在家简单煮碗清汤面或吃点水果，早睡比较重要", s: { flavor: -2, pace: 1, social: -1 } },
+            { text: "点一份精致的小甜品或轻食外卖，配着剧慢慢享用", s: { culture: 2, flavor: -1, social: -2 } }
+          ]
+        },
+        {
+          chapter: "第一章 · 日常节律",
+          q: "你的桌面或房间收纳习惯更接近下面哪一种？",
+          options: [
+            { text: "东西不多，讲究极简留白，看不顺眼就立刻归位", s: { pace: 2, culture: 2, flavor: -1 } },
+            { text: "表面有点乱但自己门儿清，充满“我在这里生活过”的痕迹", s: { pace: -2, social: 1, culture: -1 } },
+            { text: "喜欢摆满旅途带回的小摆件、绿植和香薰，氛围感第一", s: { culture: 2, landscape: -1, pace: -1 } },
+            { text: "看心情，忙起来顾不上，闲下来会来一次彻底断舍离", s: { pace: 1, social: 0, climate: 0 } }
+          ]
+        },
+        {
+          chapter: "第一章 · 日常节律",
+          q: "周六下午三点，没有工作和学习任务，你最想干嘛？",
+          options: [
+            { text: "去公园草坪躺着晒太阳，或者在江边海边骑车发呆", s: { pace: -2, landscape: -2, climate: -1 } },
+            { text: "逛新开的艺术展、买手店或独立书店，吸收新鲜灵感", s: { culture: 3, landscape: 1 } },
+            { text: "约三五好友找家茶馆或咖啡馆，从下午聊到晚饭", s: { social: 2, pace: -2 } },
+            { text: "宅在家里打游戏、看电影或捣鼓自己的小爱好，谁也别找我", s: { social: -3, pace: -1 } }
+          ]
+        },
+        {
+          chapter: "第一章 · 日常节律",
+          q: "对于通勤时间，你的心理底线和状态是？",
+          options: [
+            { text: "超过30分钟就会焦虑，时间必须省下来做正事或休息", s: { pace: 2, landscape: 1 } },
+            { text: "可以接受45分钟以上，只要能坐着听播客、看电子书放空", s: { pace: -1, culture: 1, social: -1 } },
+            { text: "最好能骑小电驴或步行上班，沿途吹吹风特别解压", s: { pace: -2, landscape: -2, climate: 1 } },
+            { text: "只要工作/学校够吸引人，跨大半个城市通勤也能忍", s: { pace: 3, landscape: 2 } }
+          ]
+        },
+
+        // 第二章：处事方式 (9-16)
+        {
+          chapter: "第二章 · 处事哲学",
+          q: "出发旅行前，你通常怎么规划行程？",
+          options: [
+            { text: "精确到小时的攻略表格，交通、备选餐厅、打卡点全排好", s: { pace: 3, culture: 1 } },
+            { text: "只订好机票和酒店，到了当地看天气和心情随机漫步", s: { pace: -3, landscape: -1 } },
+            { text: "重点标出所有想吃的地道馆子和夜市，行程围绕“吃”展开", s: { flavor: 3, social: 1 } },
+            { text: "找本地朋友或小众博主推荐，专去游客少但有故事的地方", s: { culture: -2, social: 1, landscape: -1 } }
+          ]
+        },
+        {
+          chapter: "第二章 · 处事哲学",
+          q: "和朋友去吃饭，一家网红店前面排了40桌，你会？",
+          options: [
+            { text: "果断换一家不用排队的附近小店，味道差不多就行", s: { pace: 2, social: 0 } },
+            { text: "如果真的口碑绝佳，边聊天边等也无所谓，好饭不怕晚", s: { flavor: 2, pace: -2, social: 1 } },
+            { text: "提前在手机上取好号，先去旁边逛逛再卡点回来吃", s: { pace: 2, landscape: 1 } },
+            { text: "直接转身去菜市场或巷子深处，找只有本地大爷大妈吃的馆子", s: { culture: -2, flavor: 2, social: 1 } }
+          ]
+        },
+        {
+          chapter: "第二章 · 处事哲学",
+          q: "面对一个全新的陌生机会（比如跨界项目或去新环境），你的第一反应是？",
+          options: [
+            { text: "兴奋！先冲了再说，变化本身就是生命力的来源", s: { pace: 3, culture: 2, landscape: 1 } },
+            { text: "先冷静评估风险和投入产出比，心里有底了再动手", s: { pace: 1, flavor: -1, social: -1 } },
+            { text: "有点犹豫，我更喜欢在熟悉且安稳的轨道上慢慢耕耘", s: { pace: -2, culture: -2 } },
+            { text: "看这件事好不好玩、共事的人合不合拍，开心比结果重要", s: { pace: -2, social: 2 } }
+          ]
+        },
+        {
+          chapter: "第二章 · 处事哲学",
+          q: "周末计划好去郊游，结果出门前突然下起大雨，你会？",
+          options: [
+            { text: "立刻启动B计划：改去博物馆、美术馆或商场看电影", s: { culture: 2, pace: 2, landscape: 1 } },
+            { text: "太好了，刚好有正当理由裹在被窝里听雨睡大觉", s: { pace: -2, social: -2, climate: 1 } },
+            { text: "雨中漫步也很浪漫啊，撑把伞去吃顿热腾腾的火锅", s: { flavor: 2, climate: 2, pace: -1 } },
+            { text: "情绪会有点低落，感觉一整天的节奏都被打乱了", s: { climate: -2, pace: 1 } }
+          ]
+        },
+        {
+          chapter: "第二章 · 处事哲学",
+          q: "在工作或学习中遇到一个棘手难题，你习惯的破局方式是？",
+          options: [
+            { text: "独自关起门来死磕到底，把底层逻辑彻底理顺", s: { social: -2, pace: 2 } },
+            { text: "找有经验的前辈或朋友喝杯茶聊一聊，往往一句话就点醒了", s: { social: 2, culture: -1 } },
+            { text: "先放一放，去散步、洗澡或睡一觉，灵感常常在放松时冒出来", s: { pace: -2, landscape: -1 } },
+            { text: "快速做个最小测试版本试错，边干边改效率最高", s: { pace: 3, culture: 1 } }
+          ]
+        },
+        {
+          chapter: "第二章 · 处事哲学",
+          q: "买一件价格不菲但非常喜欢的东西时，你更看重什么？",
+          options: [
+            { text: "实用耐用、性价比高，最好能用好几年不落伍", s: { culture: -1, pace: 1, flavor: -1 } },
+            { text: "独特的设计感与审美价值，能代表我的品味", s: { culture: 3, landscape: 1 } },
+            { text: "材质和工艺细节，摸起来舒服、有温度才值得", s: { flavor: -2, culture: -1, pace: -1 } },
+            { text: "千金难买我高兴，当下的情绪价值拉满就够了", s: { pace: -1, social: 1, flavor: 1 } }
+          ]
+        },
+        {
+          chapter: "第二章 · 处事哲学",
+          q: "在一个陌生的老街区迷路了，手机信号还不太好，你会？",
+          options: [
+            { text: "直接问路边晒太阳的大爷大妈，顺便还能聊两句本地八卦", s: { social: 3, culture: -2 } },
+            { text: "不慌，干脆顺着小巷子随便走，迷路往往能撞见惊喜小店", s: { pace: -2, culture: 1, landscape: -1 } },
+            { text: "找个有标志性建筑的高处或大马路方向，靠方向感走出去", s: { pace: 2, climate: -1 } },
+            { text: "立刻找家有Wi-Fi的便利店或咖啡馆坐下，重新连网定位", s: { landscape: 2, pace: 1, social: -1 } }
+          ]
+        },
+        {
+          chapter: "第二章 · 处事哲学",
+          q: "如果别人对你的某个想法提出尖锐质疑，你通常会？",
+          options: [
+            { text: "就事论事直接辩论，有理有据反而越聊越爽", s: { pace: 2, social: 1, climate: -1 } },
+            { text: "表面微笑点点头，心里默默记下有用的部分，懒得争辩", s: { pace: -1, culture: 1, flavor: -1 } },
+            { text: "先消化一下情绪，如果对方说得对，会大方承认并修改", s: { social: 0, culture: 1 } },
+            { text: "觉得道不同不相为谋，只要不干涉我，大家各自安好", s: { social: -2, pace: -1 } }
+          ]
+        },
+
+        // 第三章：社交模式 (17-24)
+        {
+          chapter: "第三章 · 社交光谱",
+          q: "你最舒服的邻里或社区关系是什么样的？",
+          options: [
+            { text: "互相保持礼貌的距离，电梯里点个头就好，互不打扰", s: { social: -3, landscape: 2, culture: 2 } },
+            { text: "过节会互相送点水果特产，出门能顺手帮忙收个快递", s: { social: 3, culture: -2 } },
+            { text: "小区里有个共同爱好群，偶尔一起遛狗、露营或拼单买菜", s: { social: 1, landscape: -1, pace: -1 } },
+            { text: "楼下小卖部老板认识我，每次去都像老朋友一样寒暄两句", s: { social: 2, flavor: 1, culture: -1 } }
+          ]
+        },
+        {
+          chapter: "第三章 · 社交光谱",
+          q: "周五晚上临时收到一个十几个人的聚会邀请，你的真实想法是？",
+          options: [
+            { text: "太棒了！正好一周没见人，穿戴整齐去热热闹闹喝一杯", s: { social: 3, flavor: 2 } },
+            { text: "问清楚都有谁，如果有特别熟的闺蜜/哥们才考虑去", s: { social: 0, culture: 0 } },
+            { text: "礼貌找个理由推掉，周五晚上只属于我自己和外卖", s: { social: -3, pace: -1 } },
+            { text: "去露个面坐一小时，等大家聊嗨了就悄悄撤退", s: { social: -1, culture: 2, landscape: 1 } }
+          ]
+        },
+        {
+          chapter: "第三章 · 社交光谱",
+          q: "在多人一起旅行的小团队里，你通常扮演什么角色？",
+          options: [
+            { text: "总管兼导航员，负责订票、算账、把控时间节奏", s: { pace: 3, landscape: 1 } },
+            { text: "气氛组与美食雷达，负责逗大家笑以及找好吃的馆子", s: { social: 3, flavor: 2 } },
+            { text: "随和的跟队摄影师，负责帮大家拍好看的照片和记录风景", s: { culture: 2, landscape: -2, pace: -1 } },
+            { text: "安静的“随缘派”，大家去哪我去哪，偶尔自己脱队发会呆", s: { social: -2, pace: -2 } }
+          ]
+        },
+        {
+          chapter: "第三章 · 社交光谱",
+          q: "一个人去咖啡馆或自习室时，你习惯挑哪个位置？",
+          options: [
+            { text: "靠窗的高脚凳，能看着外面街上人来人往发呆", s: { culture: 1, pace: -1, social: 0 } },
+            { text: "最里面安静的角落，背靠墙面最有安全感", s: { social: -3, culture: 1 } },
+            { text: "室外露天座，能直接吹到自然风、晒到太阳", s: { climate: -1, landscape: -2, pace: -1 } },
+            { text: "吧台附近，偶尔还能和咖啡师聊两句豆子的风味", s: { social: 2, culture: 2 } }
+          ]
+        },
+        {
+          chapter: "第三章 · 社交光谱",
+          q: "如果陌生人在排队或坐车时主动和你搭话聊天，你会？",
+          options: [
+            { text: "迅速接上话茬，甚至能在下车前聊成半个熟人", s: { social: 3, flavor: 1 } },
+            { text: "礼貌微笑简短回应，但内心希望对话尽快结束", s: { social: -2, culture: 1 } },
+            { text: "看对方聊什么，如果是有趣的话题或本地故事，会很乐意听", s: { culture: -1, social: 1 } },
+            { text: "戴着耳机假装没听见，或者用眼神礼貌示意不方便聊", s: { social: -3, landscape: 1 } }
+          ]
+        },
+        {
+          chapter: "第三章 · 社交光谱",
+          q: "你更欣赏哪一种人际交往的“分寸感”？",
+          options: [
+            { text: "有事直说不绕弯子，哪怕吵一架也比阴阳怪气强", s: { climate: -2, flavor: 2, social: 1 } },
+            { text: "温柔体面、点到为止，留足彼此的体面与私人空间", s: { culture: 2, flavor: -2, social: -1 } },
+            { text: "热心肠、自来熟，有什么好吃好玩的都想着分你一半", s: { social: 3, culture: -2 } },
+            { text: "君子之交淡如水，平时不常联系，但需要时一定在", s: { social: -2, pace: 1 } }
+          ]
+        },
+        {
+          chapter: "第三章 · 社交光谱",
+          q: "收到微信消息时，你的回复习惯通常是？",
+          options: [
+            { text: "秒回派，看到红点就难受，事情不过夜", s: { pace: 3, social: 1 } },
+            { text: "轮回派，先在通知栏看一眼，忙完手头事再统一回", s: { pace: 1, social: -1 } },
+            { text: "意念回复派，经常心里回复完了结果忘了打字", s: { pace: -2, social: -2 } },
+            { text: "语音/表情包狂魔，打字太冷漠了，必须有情绪互动", s: { social: 2, flavor: 1 } }
+          ]
+        },
+        {
+          chapter: "第三章 · 社交光谱",
+          q: "如果可以在一个城市里长期生活，你最希望交到什么样的朋友？",
+          options: [
+            { text: "一起搞事业、互相督促进步、分享行业前沿信息的伙伴", s: { pace: 3, landscape: 2 } },
+            { text: "随叫随到、能穿着拖鞋下楼一起吃宵夜聊废话的饭搭子", s: { social: 3, flavor: 2, pace: -2 } },
+            { text: "审美相近，能一起看展、喝手冲、分享书单和电影的灵魂朋友", s: { culture: 3, social: -1 } },
+            { text: "周末能一起爬山、看海、露营、亲近大自然的户外搭子", s: { landscape: -3, climate: -1 } }
+          ]
+        },
+
+        // 第四章：情绪气象 (25-32)
+        {
+          chapter: "第四章 · 情绪气象",
+          q: "最近工作或生活压力特别大时，你最想通过什么方式“重启”自己？",
+          options: [
+            { text: "狠狠吃一顿重口味美食，出点微汗，烦恼瞬间少一半", s: { flavor: 3, social: 1 } },
+            { text: "去海边或山顶吹两个小时风，看看天地有多大", s: { landscape: -3, pace: -1 } },
+            { text: "去按摩、泡澡或找家安静的茶室坐一下午，彻底放空", s: { pace: -3, climate: 1 } },
+            { text: "逛街购物或者去人声鼎沸的商圈走走，感受城市的活力", s: { landscape: 3, culture: 2 } }
+          ]
+        },
+        {
+          chapter: "第四章 · 情绪气象",
+          q: "一年四季里，哪一种季节感最容易让你心情变好？",
+          options: [
+            { text: "阳光灿烂但风很凉爽的初秋，天空高远得像洗过一样", s: { climate: -3, landscape: -1 } },
+            { text: "草长莺飞、微风暖洋洋的春天，满眼都是新绿和花香", s: { climate: 2, landscape: -1, flavor: -1 } },
+            { text: "带着海风咸味的盛夏傍晚，天边是粉紫色的晚霞", s: { climate: 2, landscape: -2, pace: -1 } },
+            { text: "室外天寒地冻、室内温暖如春，窗外还飘着点小雪的冬天", s: { climate: -3, social: 1 } }
+          ]
+        },
+        {
+          chapter: "第四章 · 情绪气象",
+          q: "当生活陷入一成不变的乏味感时，你通常会？",
+          options: [
+            { text: "立刻换条路回家，或者周末买张车票去周边小城溜达一圈", s: { pace: 0, landscape: -2, culture: 1 } },
+            { text: "去学一个新技能、报个夜校班，用充实感对抗无聊", s: { pace: 3, culture: 1 } },
+            { text: "在家重新布置房间、做一顿大菜，把日常过出仪式感", s: { social: -1, culture: 1, flavor: 1 } },
+            { text: "其实我挺享受平淡重复的安稳感，不折腾就是福", s: { pace: -3, culture: -1 } }
+          ]
+        },
+        {
+          chapter: "第四章 · 情绪气象",
+          q: "听到一个天大的好消息时，你的第一反应是？",
+          options: [
+            { text: "立刻发朋友圈或群里官宣，快乐必须翻倍分享", s: { social: 3, flavor: 1 } },
+            { text: "只告诉最亲近的一两个人，然后自己偷偷开心好几天", s: { social: -2, culture: 1 } },
+            { text: "奖励自己一顿平时舍不得吃的大餐或买件心仪好物", s: { flavor: 1, landscape: 1 } },
+            { text: "开心五分钟后，立刻开始思考下一步该怎么乘胜追击", s: { pace: 3, social: -1 } }
+          ]
+        },
+        {
+          chapter: "第四章 · 情绪气象",
+          q: "周日晚上想到明天又要上班/上课，你的心情最接近？",
+          options: [
+            { text: "有点小焦虑，赶紧复盘下周待办事项，列好清单才踏实", s: { pace: 3, landscape: 1 } },
+            { text: "抓紧最后几小时看剧打游戏，能晚睡一分钟是一分钟", s: { pace: -1, landscape: 1, social: -1 } },
+            { text: "早早洗漱敷面膜，泡杯热牛奶准备睡个好觉", s: { pace: 1, flavor: -2 } },
+            { text: "只要工作别太卷，周一去楼下买杯好喝的咖啡也还行", s: { pace: -1, culture: 2 } }
+          ]
+        },
+        {
+          chapter: "第四章 · 情绪气象",
+          q: "哪种声音最能让你在深夜迅速安静下来？",
+          options: [
+            { text: "窗外淅淅沥沥的雨声，打在树叶或雨棚上", s: { climate: 3, landscape: -1, social: -1 } },
+            { text: "远处隐约传来的海浪拍岸声，或者风吹过山林的声音", s: { landscape: -3, pace: -2 } },
+            { text: "城市高架桥上轻微的车流声，像一种安全感十足的白噪音", s: { landscape: 3, pace: 1 } },
+            { text: "绝对的安静，连冰箱嗡嗡声都最好别有", s: { social: -2, climate: -1 } }
+          ]
+        },
+        {
+          chapter: "第四章 · 情绪气象",
+          q: "如果必须在“高薪但天天加班”和“够花但每天准点下班”之间选一个，你选？",
+          options: [
+            { text: "现阶段我选前者，趁年轻多攒点底气和可能性", s: { pace: 3, landscape: 2 } },
+            { text: "毫不犹豫选后者，下班后的时间才是真正属于我的人生", s: { pace: -3, landscape: -1 } },
+            { text: "看城市生活成本，如果物价不高、风景又好，绝对选后者", s: { pace: -2, landscape: -2, climate: 1 } },
+            { text: "我希望工作本身就有趣且自由，最好能弹性办公", s: { culture: 3, pace: 0 } }
+          ]
+        },
+        {
+          chapter: "第四章 · 情绪气象",
+          q: "什么样的小事会让你瞬间觉得“生活真好啊”？",
+          options: [
+            { text: "在路边买到一块刚出炉、热乎又便宜的酥饼", s: { culture: -2, flavor: 2, social: 1 } },
+            { text: "抬头发现今天天空的云彩像宫崎骏动画里的画面", s: { landscape: -3, climate: -1, pace: -1 } },
+            { text: "独自看完一场后劲很大的电影，走出来正好赶上晚风", s: { culture: 2, social: -2, landscape: 1 } },
+            { text: "和喜欢的人坐在路边大排档，碰杯时冰镇饮料冒着气泡", s: { social: 3, flavor: 2, climate: 1 } }
+          ]
+        },
+
+        // 第五章：风味与向往 (33-40)
+        {
+          chapter: "第五章 · 风味与向往",
+          q: "如果接下来的三年只能主打一种口味的菜系，你的胃会投票给？",
+          options: [
+            { text: "鲜甜清淡、讲究食材原汁原味与时令鲜美", s: { flavor: -3, climate: 2 } },
+            { text: "麻辣鲜香、热油泼辣子、越吃越上头的重口江湖菜", s: { flavor: 3, social: 1 } },
+            { text: "扎实过瘾的碳水快乐：各种面食、饼类、饺子和炖肉", s: { flavor: 1, climate: -2, culture: -1 } },
+            { text: "酸辣开胃或者海鲜烧烤，配上冰饮简直绝绝子", s: { flavor: 2, landscape: -2 } }
+          ]
+        },
+        {
+          chapter: "第五章 · 风味与向往",
+          q: "走进一家独立书店，你最容易在哪个书架前停下来？",
+          options: [
+            { text: "历史人文、城市传记或散文随笔区", s: { culture: -3, pace: -1 } },
+            { text: "设计美学、当代艺术、摄影集或前沿科技区", s: { culture: 3, landscape: 2 } },
+            { text: "自然博物、旅行游记或生活方式杂志区", s: { landscape: -2, pace: -2 } },
+            { text: "美食图鉴、市井小说或推理悬疑区", s: { flavor: 2, social: 1 } }
+          ]
+        },
+        {
+          chapter: "第五章 · 风味与向往",
+          q: "你心目中最迷人的建筑与街道风貌是？",
+          options: [
+            { text: "青砖灰瓦、飞檐翘角，街头巷尾能摸到几百年的历史质感", s: { culture: -3, climate: -1 } },
+            { text: "白墙黛瓦、小桥流水，转角就是一扇精致的雕花木窗", s: { culture: -2, climate: 2, flavor: -2 } },
+            { text: "红瓦绿树、彩色小洋楼，顺着坡道往下走就能看见大海", s: { landscape: -2, culture: 1, climate: 1 } },
+            { text: "极具未来感的摩天大楼与霓虹灯牌，夜晚像赛博电影", s: { landscape: 3, culture: 3, pace: 2 } }
+          ]
+        },
+        {
+          chapter: "第五章 · 风味与向往",
+          q: "你的手机音乐歌单里，循环最多的是哪种氛围？",
+          options: [
+            { text: "民谣、轻音乐或爵士乐，适合散步和喝茶", s: { pace: -2, culture: 1, landscape: -1 } },
+            { text: "独立摇滚、说唱或电子乐，有节奏感才带劲", s: { culture: 2, flavor: 2, pace: 1 } },
+            { text: "经典老歌或影视原声，旋律里全是故事感", s: { culture: -2, social: 1 } },
+            { text: "欧美流行或R&B，摩登、利落、有都市感", s: { culture: 3, landscape: 2 } }
+          ]
+        },
+        {
+          chapter: "第五章 · 风味与向往",
+          q: "去一个新地方旅行，你一定会带回家的纪念品是？",
+          options: [
+            { text: "本地人常吃的特色零食、辣椒酱或茶叶", s: { flavor: 3, culture: -1 } },
+            { text: "冰箱贴、明信片或小众文创周边，留个纪念就行", s: { culture: 2, pace: 0 } },
+            { text: "在海边捡的贝壳、山里捡的松果，大自然的礼物", s: { landscape: -3, pace: -2 } },
+            { text: "拍满相册的照片和视频，不太喜欢买实体纪念品", s: { pace: 1, landscape: 1 } }
+          ]
+        },
+        {
+          chapter: "第五章 · 风味与向往",
+          q: "如果给你一笔钱开一家小店，你最想开什么店？",
+          options: [
+            { text: "白天卖咖啡、晚上变身小酒馆的复合空间", s: { culture: 3, social: 1, landscape: 1 } },
+            { text: "开在老巷子里、每天只卖两三种拿手小吃的深夜食堂", s: { flavor: 3, culture: -2, social: 2 } },
+            { text: "面向大海或稻田的安静民宿，每天和住客喝茶看风景", s: { landscape: -3, pace: -3 } },
+            { text: "高效好逛、选品犀利的生活方式买手店或轻食铺", s: { pace: 2, culture: 2, flavor: -1 } }
+          ]
+        },
+        {
+          chapter: "第五章 · 风味与向往",
+          q: "关于“理想定居城市”的规模，你内心更倾向于？",
+          options: [
+            { text: "超级大都市：机会多、资源顶配、24小时永远不无聊", s: { landscape: 3, pace: 3, culture: 2 } },
+            { text: "新一线/省会大城：既有烟火气和美食，也有不错的配套和节奏", s: { pace: 0, social: 2, flavor: 2 } },
+            { text: "风景秀丽的中小海滨或山水小城：安静干净，幸福感极高", s: { landscape: -3, pace: -2, social: -1 } },
+            { text: "有深厚文化底蕴的历史名城：慢一点、稳一点，很有归属感", s: { culture: -3, pace: -1 } }
+          ]
+        },
+        {
+          chapter: "第五章 · 风味与向往",
+          q: "最后一题：如果用一句话形容你向往的未来生活，你选？",
+          options: [
+            { text: "“世界很大，我想站在最热闹、最前沿的地方看看。”", s: { pace: 3, landscape: 3, culture: 2 } },
+            { text: "“有山有海有微风，日子不必太赶，开心最重要。”", s: { pace: -3, landscape: -3 } },
+            { text: "“人间烟火气，最抚凡人心，三餐四季热气腾腾。”", s: { social: 3, flavor: 3, culture: -1 } },
+            { text: "“内心丰盈自洽，在自己的小世界里精致而安静地生长。”", s: { social: -3, culture: 2, flavor: -2 } }
+          ]
+        }
+      ];
+
+      // 12座国内代表性城市档案（涵盖大小城市、南北东西、沿海内陆、不同气候人文美食）
+      // 理想向量值为 0-100
+      const CITIES = [
+        {
+          id: "chengdu",
+          name: "成都",
+          archetype: "西南巴适派",
+          direction: "西南盆地",
+          climate: "温润多云 · 冬无严寒",
+          culture: "闲适烟火 · 包容自在",
+          food: "麻辣鲜香 · 街头小吃",
+          gradient: "linear-gradient(135deg, #2d6a5b 0%, #52937c 55%, #d97757 100%)",
+          vector: { pace: 32, social: 74, climate: 66, culture: 48, flavor: 78, landscape: 48 },
+          quote: "「别人赶路的时候，你在茶馆里等风来；生活不是冲刺，而是一场热气腾腾的漫游。」",
+          features: "成都是一座把“松弛感”写进基因的大城市。既有现代商圈与便利配套，又有走几步就能钻进去的绿道、竹林和老茶馆。阴天多云的温柔天光，刚好中和了生活的锋利。",
+          advantage: "你自带的松弛感与烟火共情力，在这里不会显得“不求上进”，反而能迅速融入本地节奏。你很懂得把有限的精力花在真正让你开心的人和事上。",
+          egg: "🎁 定居彩蛋：某天下午四点你在路边喝茶晒太阳时，突然发现邻桌大爷正在讨论量子力学——在成都，松弛和有趣从来不冲突。你的幸运暗号是「微辣加一份脑花，再配一碗冰粉」。"
+        },
+        {
+          id: "shanghai",
+          name: "上海",
+          archetype: "摩登自由派",
+          direction: "华东沿海",
+          climate: "湿润温和 · 四季分明",
+          culture: "海派先锋 · 边界感强",
+          food: "全球风味 · 精致本帮",
+          gradient: "linear-gradient(135deg, #243b4a 0%, #3d6378 58%, #9b6b5c 100%)",
+          vector: { pace: 76, social: 32, climate: 60, culture: 80, flavor: 36, landscape: 78 },
+          quote: "「最好的自由，是楼下就有全世界的咖啡香，而电梯里没人过问你的私事。」",
+          features: "上海有着极高的城市秩序感与审美密度。梧桐树影下的百年建筑与陆家嘴天际线共存，24小时便利店、密集的演出展览和清晰的社交边界，让独立灵魂倍感舒适。",
+          advantage: "你的高效、讲究审美与尊重边界的特质，在这里能发挥到极致。你不需要靠无效社交换取安全感，专业度和品味本身就是你的通行证。",
+          egg: "🎁 定居彩蛋：你会在某个梅雨季的清晨，在巷口偶遇一只穿着雨衣散步的小狗，并顺手买到今天最后一只刚出炉的蝴蝶酥。你的幸运暗号是「冰美式少冰，谢谢，不用袋子」。"
+        },
+        {
+          id: "beijing",
+          name: "北京",
+          archetype: "朗阔厚重派",
+          direction: "华北平原",
+          climate: "干爽朗阔 · 四季极明",
+          culture: "古都底蕴 · 坦荡浪漫",
+          food: "醇厚京味 · 北方碳水",
+          gradient: "linear-gradient(135deg, #7c3626 0%, #a8523b 55%, #485b63 100%)",
+          vector: { pace: 68, social: 60, climate: 28, culture: 32, flavor: 60, landscape: 68 },
+          quote: "「见过大风也见过胡同里的夕阳，你骨子里的坦荡与厚重，配得上这片高远的天空。」",
+          features: "北京是一座气场宏大却又藏着无数细节的城市。笔直宽阔的街道、秋天洗过一样通透的蓝天、浓厚的人文历史与戏剧氛围，以及胡同里直爽热情的聊天声，构成独特的北方浪漫。",
+          advantage: "你身上那种不绕弯子的坦诚、对精神世界和宏大叙事的敏感，在这里极易找到同频的知音。你抗压且有主见，适合在资源丰沛的舞台上舒展。",
+          egg: "🎁 定居彩蛋：某个十月的金色下午，你骑车穿过银杏落满地的小街，正好听见头顶一群鸽子带着哨声飞过。你的幸运暗号是「麻酱多加点，再来两瓣糖蒜」。"
+        },
+        {
+          id: "hangzhou",
+          name: "杭州",
+          archetype: "江南诗意派",
+          direction: "华东江南",
+          climate: "温润雅致 · 满城绿意",
+          culture: "山水人文 · 数字新锐",
+          food: "清鲜时令 · 江南茶点",
+          gradient: "linear-gradient(135deg, #27584c 0%, #4d8a7b 60%, #9ab8a8 100%)",
+          vector: { pace: 58, social: 42, climate: 68, culture: 64, flavor: 32, landscape: 40 },
+          quote: "「左手是飞速运转的现代生活，右手是走十分钟就能撞见的湖山与茶烟。」",
+          features: "杭州是少数把“自然山水”无缝嵌进“现代都市”里的城市。工作日可以在科技园区高效运转，周末一头扎进西湖群山、龙井茶园或运河边，进退自如。",
+          advantage: "你兼具进取心与诗意审美，既能适应现代效率，又懂得用自然和美学给自己回血。这种“动静皆宜”的平衡感，让你在杭州游刃有余。",
+          egg: "🎁 定居彩蛋：九月底走在路上突然闻到一阵扑鼻的甜香，那一刻你会瞬间原谅所有加班。你的幸运暗号是「一碗片儿川加个荷包蛋，再去茅家埠走一圈」。"
+        },
+        {
+          id: "dali",
+          name: "大理",
+          archetype: "山海漫游派",
+          direction: "西南高原",
+          climate: "阳光干爽 · 四季如春",
+          culture: "自由栖居 · 文艺野生",
+          food: "酸辣滇味 · 野生菌香",
+          gradient: "linear-gradient(135deg, #2f5d80 0%, #5a8eb0 58%, #d69f68 100%)",
+          vector: { pace: 26, social: 48, climate: 42, culture: 68, flavor: 62, landscape: 24 },
+          quote: "「苍山永远在那里，洱海的风也永远温柔，你终于可以把日子过成自己喜欢的样子。」",
+          features: "大理是一座允许人“不按常规出牌”的小城。高远通透的云彩、环海骑行的自由风、来自五湖四海的有趣邻居，以及低密度、慢节拍的日常，是许多人的精神乌托邦。",
+          advantage: "你对大自然的敏感度和内心自洽的创造力，在这里会被无限放大。你不依赖繁华霓虹来证明自己，反而能在山海之间活出极高的幸福感。",
+          egg: "🎁 定居彩蛋：你在菜市场买菌子时，旁边卖烤乳扇的阿姨可能顺便给你推荐了一位很棒的独立音乐人。你的幸运暗号是「今天风好大，不如去晒太阳」。"
+        },
+        {
+          id: "chongqing",
+          name: "重庆",
+          archetype: "赛博江湖派",
+          direction: "西南山城",
+          climate: "湿润热辣 · 多雾立体",
+          culture: "耿直义气 · 8D魔幻",
+          food: "极致牛油 · 麻辣江湖",
+          gradient: "linear-gradient(135deg, #9e352b 0%, #d45d3a 58%, #354252 100%)",
+          vector: { pace: 52, social: 78, climate: 72, culture: 54, flavor: 82, landscape: 68 },
+          quote: "「生活有时候像爬坡上坎，但只要夜里那口热辣牛油火锅还在沸腾，就没什么过不去。」",
+          features: "重庆是一座极度立体、热烈且毫不矫情的城市。穿楼而过的轻轨、深夜两点依然灯火通明的江边大排档、外冷内热的山城性格，每时每刻都在释放旺盛的生命力。",
+          advantage: "你的热烈、直率与极强的生活韧性，和这座山城天生一对。你喜欢真实有温度的人际碰撞，也懂得在忙碌之余用一口重口味美食治愈一切。",
+          egg: "🎁 定居彩蛋：在导航彻底失灵的梯坎小巷里，一位路过的大姐热心给你指路，最后顺便安利了她家楼下最好吃的豆花面。你的幸运暗号是「微辣是最后的妥协，再来一瓶唯怡」。"
+        },
+        {
+          id: "xiamen",
+          name: "厦门",
+          archetype: "海风慢调派",
+          direction: "东南沿海",
+          climate: "温暖湿润 · 长夏海风",
+          culture: "闽南古厝 · 文艺慢调",
+          food: "沙茶海鲜 · 清甜古早",
+          gradient: "linear-gradient(135deg, #2b7a78 0%, #58a6a1 58%, #e09f7d 100%)",
+          vector: { pace: 34, social: 54, climate: 78, culture: 60, flavor: 40, landscape: 30 },
+          quote: "「把烦恼交给太平洋的晚风，你只需要在三角梅盛开的巷口，慢慢喝完这杯茶。」",
+          features: "厦门既有海滨城市的浪漫松弛，又有闽南传统文化的温厚底色。红砖古厝与独立咖啡馆比邻，环岛路的海风四季吹拂，城市干净、小巧而精致。",
+          advantage: "你温柔细腻的情感感知力与对舒适气候的偏好，在这里会得到极好的滋养。你不喜欢过于紧绷的竞争，更擅长在温暖明亮的环境里稳步生长。",
+          egg: "🎁 定居彩蛋：某个工作日下午茶时间，你走出写字楼五分钟就看到了粉橘色的海面晚霞，瞬间觉得这一周都值了。你的幸运暗号是「一碗沙茶面加鸭血和豆腐，再来杯四果汤」。"
+        },
+        {
+          id: "qingdao",
+          name: "青岛",
+          archetype: "爽朗微醺派",
+          direction: "华东北方沿海",
+          climate: "夏爽冬朗 · 海风拂面",
+          culture: "红瓦绿树 · 豪爽浪漫",
+          food: "鲜美海味 · 哈啤酒吃蛤蜊",
+          gradient: "linear-gradient(135deg, #285b7a 0%, #4b85a6 58%, #c9684b 100%)",
+          vector: { pace: 42, social: 66, climate: 38, culture: 46, flavor: 64, landscape: 34 },
+          quote: "「既有红瓦绿树的浪漫轮廓，又有拎着塑料袋装鲜啤的豪爽快乐，这才是生活。」",
+          features: "青岛兼具北方的爽朗干脆与海滨的温柔浪漫。老城区起伏的坡道、四季分明却不极端酷热的气候、干净的海风，加上傍晚街边热闹的烧烤海鲜摊，松弛又有烟火气。",
+          advantage: "你既欣赏欧式老城的文艺质感，又放得下身段享受接地气的快乐。这种“上得厅堂、下得大排档”的通透性格，在青岛会活得特别舒展。",
+          egg: "🎁 定居彩蛋：夏夜从海水浴场散步回来，在路口小店顺手提了一袋冰镇原浆，风一吹，整个人轻盈得像要飞起来。你的幸运暗号是「辣炒蛤蜊配一扎原浆，再来串烤海肠」。"
+        },
+        {
+          id: "xian",
+          name: "西安",
+          archetype: "长安烟火派",
+          direction: "西北关中",
+          climate: "干燥分明 · 阳光充足",
+          culture: "千年古都 · 实在厚道",
+          food: "碳水狂欢 · 油泼辣子",
+          gradient: "linear-gradient(135deg, #6e4532 0%, #a36a4a 58%, #d19b58 100%)",
+          vector: { pace: 44, social: 70, climate: 26, culture: 26, flavor: 72, landscape: 50 },
+          quote: "「城墙根下的风吹了几千年，而你只要端起那碗热腾腾的面，心里就踏实了。」",
+          features: "西安是一座历史厚度与市井烟火完美融合的城市。雄浑的城墙、干燥爽朗的晴天、热情实诚的关中人，以及遍地开花、性价比极高的碳水美食，给人满满的归属感。",
+          advantage: "你内心重情义、看重踏实感与文化根脉，不会被浮躁的潮流轻易裹挟。在西安，你能找到一种“任凭外界喧嚣，我自安稳扎根”的底气。",
+          egg: "🎁 定居彩蛋：某个秋夜你在城墙根下听见一群年轻人弹吉他唱民谣，旁边大叔边剥蒜边跟着打拍子。你的幸运暗号是「三合一加个腊汁肉夹馍，配一瓶冰峰」。"
+        },
+        {
+          id: "shenzhen",
+          name: "深圳",
+          archetype: "破界生长派",
+          direction: "华南沿海",
+          climate: "温暖长夏 · 碧海蓝天",
+          culture: "年轻包容 · 高效创新",
+          food: "广式早茶 · 全国融合",
+          gradient: "linear-gradient(135deg, #1f5c6e 0%, #2f8594 58%, #47b39d 100%)",
+          vector: { pace: 80, social: 44, climate: 76, culture: 74, flavor: 54, landscape: 70 },
+          quote: "「这里不问你从哪里来，只看你想去哪里；搞钱之外，抬头就是深圳湾的蓝。」",
+          features: "深圳是一座年轻、透明、极度务实的奇迹城市。没有复杂的人情世故，办事讲效率，同时拥有密度极高的公园绿道和海岸线，让你在全力奔跑时也能随时看海喘口气。",
+          advantage: "你的行动力、目标感与对新事物的好奇心，在深圳是最稀缺也最受尊重的品质。你不需要迎合旧规则，只要有想法，这里永远给你留着一扇门。",
+          egg: "🎁 定居彩蛋：周末你去红树林骑行，发现旁边擦肩而过的“大叔”背着帆布包，其实刚做完一个改变行业的小程序。你的幸运暗号是「今天天气好，去爬塘朗山还是逛公园？」。"
+        },
+        {
+          id: "suzhou",
+          name: "苏州",
+          archetype: "园林雅集派",
+          direction: "华东江南",
+          climate: "温润细腻 · 四季柔和",
+          culture: "精致温婉 · 慢调匠心",
+          food: "苏式清甜 · 时令精细",
+          gradient: "linear-gradient(135deg, #3c6658 0%, #6d9685 58%, #b8c9bc 100%)",
+          vector: { pace: 36, social: 32, climate: 70, culture: 36, flavor: 24, landscape: 38 },
+          quote: "「把日子过成一扇苏州花窗，不争朝夕的喧闹，只在自己的方寸之间讲究到底。」",
+          features: "苏州既有千年姑苏的温婉古韵，又有现代园区的整洁舒朗。小桥流水、评弹茶香、不时不食的时令美食，让时间在这里变得格外细腻而有质感。",
+          advantage: "你内敛、讲究生活细节、善于在安静中汲取力量。在苏州这样温润不张扬的城市里，你的细腻审美与慢工出细活的特质会被温柔接住。",
+          egg: "🎁 定居彩蛋：某个细雨蒙蒙的早晨，你赶在第一批进了一座人很少的小园林，听着雨滴落在芭蕉叶上，瞬间理解了什么是东方美学。你的幸运暗号是「一碗头汤枫镇大肉面，加份焖肉」。"
+        },
+        {
+          id: "weihai",
+          name: "威海",
+          archetype: "治愈看海派",
+          direction: "胶东半岛沿海",
+          climate: "清爽海风 · 洁净宜居",
+          culture: "安静松弛 · 精致小城",
+          food: "胶东海鲜 · 鲜甜家常",
+          gradient: "linear-gradient(135deg, #2b6787 0%, #5298b8 58%, #8cc2d4 100%)",
+          vector: { pace: 28, social: 30, climate: 40, culture: 54, flavor: 40, landscape: 24 },
+          quote: "「不用远赴海外，在干净的环海路尽头，把每天都过成治愈系电影的空镜头。」",
+          features: "威海是一座被严重低估的宝藏海滨小城。街道一尘不染，海岸线绵长又安静，空气清冽透亮，物价友好且生活节奏极度舒缓，简直是为内向型浪漫人格量身定制。",
+          advantage: "你不需要嘈杂的社交场来填充时间，反而能在安静、秩序与开阔海景中恢复满分能量。你的纯澈与松弛感，在这里每天都能被大海治愈。",
+          egg: "🎁 定居彩蛋：某个晴朗的冬日清晨，你在海边栈道散步，意外遇见一群从西伯利亚飞来的大天鹅就在不远处游弋。你的幸运暗号是「海鲜焖子配一盘海肠捞饭，再去火炬八街看日落」。"
+        }
+      ];
+
+      // 状态管理
+      const state = {
+        currentIdx: 0,
+        answers: new Array(QUESTIONS.length).fill(null), // 存选中的 option index
+        lastResult: null,
+        isAnimating: false
+      };
+
+      // DOM 引用
+      const views = {
+        home: document.getElementById("view-home"),
+        quiz: document.getElementById("view-quiz"),
+        loading: document.getElementById("view-loading"),
+        result: document.getElementById("view-result")
+      };
+
+      const elChapterBadge = document.getElementById("chapter-badge");
+      const elProgressText = document.getElementById("progress-text");
+      const elProgressFill = document.getElementById("progress-fill");
+      const elProgressTrack = document.querySelector(".progress-track");
+      const elQuestionStage = document.getElementById("question-stage");
+      const elQuestionNumLabel = document.getElementById("question-num-label");
+      const elQuestionTitle = document.getElementById("question-title");
+      const elOptionsList = document.getElementById("options-list");
+      const btnStart = document.getElementById("btn-start");
+      const btnPrev = document.getElementById("btn-prev");
+      const btnRestart = document.getElementById("btn-restart");
+      const btnShareCard = document.getElementById("btn-share-card");
+      const btnCopyText = document.getElementById("btn-copy-text");
+      const shareModal = document.getElementById("share-modal");
+      const btnModalCopy = document.getElementById("btn-modal-copy");
+      const btnModalClose = document.getElementById("btn-modal-close");
+      const toastEl = document.getElementById("toast");
+
+      function showView(name) {
+        Object.keys(views).forEach(function (k) {
+          views[k].classList.remove("active");
+        });
+        views[name].classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function showToast(msg) {
+        toastEl.textContent = msg;
+        toastEl.classList.add("show");
+        setTimeout(function () {
+          toastEl.classList.remove("show");
+        }, 2200);
+      }
+
+      function copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () {
+            showToast("专属文案已复制，快去分享吧！");
+          }).catch(function () {
+            fallbackCopy(text);
+          });
+        } else {
+          fallbackCopy(text);
+        }
+      }
+
+      function fallbackCopy(text) {
+        try {
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          document.execCommand("copy");
+          document.body.removeChild(ta);
+          showToast("专属文案已复制，快去分享吧！");
+        } catch (e) {
+          showToast("复制失败，请手动截图分享");
+        }
+      }
+
+      function renderQuestion() {
+        const idx = state.currentIdx;
+        const item = QUESTIONS[idx];
+        const total = QUESTIONS.length;
+        const pct = Math.round(((idx + 1) / total) * 100);
+
+        elChapterBadge.textContent = item.chapter;
+        elProgressText.textContent = (idx + 1) + " / " + total;
+        elProgressFill.style.width = pct + "%";
+        elProgressTrack.setAttribute("aria-valuenow", String(pct));
+
+        elQuestionNumLabel.textContent = "QUESTION " + String(idx + 1).padStart(2, "0");
+        elQuestionTitle.textContent = item.q;
+
+        const keys = ["A", "B", "C", "D"];
+        elOptionsList.innerHTML = "";
+        item.options.forEach(function (opt, optIdx) {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "option-btn" + (state.answers[idx] === optIdx ? " selected" : "");
+          btn.innerHTML =
+            '<span class="option-key">' + keys[optIdx] + '</span>' +
+            '<span>' + opt.text + '</span>';
+          btn.addEventListener("click", function () {
+            handleSelectOption(optIdx);
+          });
+          elOptionsList.appendChild(btn);
+        });
+
+        btnPrev.disabled = idx === 0;
+      }
+
+      function handleSelectOption(optIdx) {
+        if (state.isAnimating) return;
+        state.answers[state.currentIdx] = optIdx;
+
+        // 高亮当前选中项
+        const buttons = elOptionsList.querySelectorAll(".option-btn");
+        buttons.forEach(function (b, i) {
+          b.classList.toggle("selected", i === optIdx);
+        });
+
+        state.isAnimating = true;
+        setTimeout(function () {
+          if (state.currentIdx < QUESTIONS.length - 1) {
+            elQuestionStage.classList.add("switching");
+            setTimeout(function () {
+              state.currentIdx += 1;
+              renderQuestion();
+              elQuestionStage.classList.remove("switching");
+              state.isAnimating = false;
+            }, 180);
+          } else {
+            state.isAnimating = false;
+            finishQuiz();
+          }
+        }, 200);
+      }
+
+      // 动态计算所有维度理论最小值与最大值，确保归一化严格落在 [0, 100]
+      function getDimensionBounds() {
+        const bounds = {};
+        DIMENSIONS.forEach(function (d) {
+          bounds[d.key] = { min: 0, max: 0 };
+        });
+        QUESTIONS.forEach(function (q) {
+          DIMENSIONS.forEach(function (d) {
+            let qMin = Infinity;
+            let qMax = -Infinity;
+            q.options.forEach(function (opt) {
+              const val = (opt.s && typeof opt.s[d.key] === "number") ? opt.s[d.key] : 0;
+              if (val < qMin) qMin = val;
+              if (val > qMax) qMax = val;
+            });
+            bounds[d.key].min += qMin;
+            bounds[d.key].max += qMax;
+          });
+        });
+        return bounds;
+      }
+
+      const DIM_BOUNDS = getDimensionBounds();
+
+      function calculateResult() {
+        const raw = {};
+        DIMENSIONS.forEach(function (d) { raw[d.key] = 0; });
+
+        QUESTIONS.forEach(function (q, qIdx) {
+          const chosen = state.answers[qIdx] !== null ? state.answers[qIdx] : 0;
+          const opt = q.options[chosen];
+          if (opt && opt.s) {
+            Object.keys(opt.s).forEach(function (k) {
+              if (typeof raw[k] === "number") {
+                raw[k] += opt.s[k];
+              }
+            });
+          }
+        });
+
+        // 归一化到 0 - 100
+        const normalized = {};
+        DIMENSIONS.forEach(function (d) {
+          const b = DIM_BOUNDS[d.key];
+          const span = b.max - b.min;
+          if (span <= 0) {
+            normalized[d.key] = 50;
+          } else {
+            const pct = ((raw[d.key] - b.min) / span) * 100;
+            normalized[d.key] = Math.max(0, Math.min(100, Math.round(pct)));
+          }
+        });
+
+        // 计算与 12 座城市的欧氏距离并转换为契合度百分比
+        const maxPossibleDist = Math.sqrt(6 * 100 * 100); // ~244.95
+        const ranked = CITIES.map(function (city) {
+          let sumSq = 0;
+          DIMENSIONS.forEach(function (d) {
+            const diff = normalized[d.key] - city.vector[d.key];
+            sumSq += diff * diff;
+          });
+          const dist = Math.sqrt(sumSq);
+          // 映射到 68% - 98% 区间，保持趣味鼓励感同时保留区分度
+          const rawSim = Math.max(0, 1 - dist / (maxPossibleDist * 0.68));
+          const matchPct = Math.min(98, Math.max(66, Math.round(66 + rawSim * 32)));
+          return {
+            city: city,
+            dist: dist,
+            matchPct: matchPct
+          };
+        }).sort(function (a, b) {
+          return a.dist - b.dist;
+        });
+
+        return {
+          scores: normalized,
+          top: ranked[0],
+          runners: [ranked[1], ranked[2]]
+        };
+      }
+
+      function buildDynamicReason(scores, city) {
+        const highlights = [];
+        if (scores.pace <= 38) highlights.push("偏向松弛慢步的生活节律");
+        else if (scores.pace >= 65) highlights.push("追求高效与向上突破的节奏感");
+
+        if (scores.social <= 38) highlights.push("重视独处空间与边界感");
+        else if (scores.social >= 65) highlights.push("偏爱热气腾腾的市井人情味");
+
+        if (scores.climate <= 35) highlights.push("向往干爽通透、四季分明的天气");
+        else if (scores.climate >= 65) highlights.push("钟情温润湿暖的体感");
+
+        if (scores.flavor <= 35) highlights.push("喜欢清鲜本味的饮食美学");
+        else if (scores.flavor >= 65) highlights.push("热爱热烈痛快的江湖风味");
+
+        if (scores.landscape <= 35) highlights.push("渴望推窗见山海的自然治愈力");
+        else if (scores.landscape >= 65) highlights.push("享受现代都市便利与夜间活力");
+
+        const picked = highlights.slice(0, 3);
+        const traitText = picked.length > 0
+          ? "从你的 40 个生活切片来看，你" + picked.join("、") + "。"
+          : "从你的 40 个生活切片来看，你在快慢、动静与新旧之间保持着难得的平衡感。";
+
+        return traitText + city.name + "恰好具备「" + city.culture + "」的城市气质与「" + city.climate + "」的居住体感，与你的日常频率高度共振。";
+      }
+
+      function finishQuiz() {
+        showView("loading");
+        const result = calculateResult();
+        state.lastResult = result;
+
+        setTimeout(function () {
+          renderResult(result);
+          showView("result");
+        }, 1100);
+      }
+
+      function renderResult(result) {
+        const topCity = result.top.city;
+        const scores = result.scores;
+        const dynamicReason = buildDynamicReason(scores, topCity);
+
+        // 主结果卡
+        document.getElementById("poster-card").style.background = topCity.gradient;
+        document.getElementById("res-match-badge").textContent = "契合度 " + result.top.matchPct + "%";
+        document.getElementById("res-city-name").textContent = topCity.name;
+        document.getElementById("res-city-archetype").textContent = topCity.archetype;
+        document.getElementById("res-quote").textContent = topCity.quote;
+        document.getElementById("res-direction").textContent = topCity.direction;
+        document.getElementById("res-climate").textContent = topCity.climate;
+        document.getElementById("res-culture").textContent = topCity.culture;
+        document.getElementById("res-food").textContent = topCity.food;
+
+        // 6维度进度条
+        const barsEl = document.getElementById("traits-bars");
+        barsEl.innerHTML = "";
+        DIMENSIONS.forEach(function (d) {
+          const val = scores[d.key];
+          const row = document.createElement("div");
+          row.className = "trait-row";
+          row.innerHTML =
+            '<div class="trait-labels">' +
+              '<span>' + d.left + '</span>' +
+              '<span class="trait-center-name">' + d.name + ' · ' + val + '%</span>' +
+              '<span>' + d.right + '</span>' +
+            '</div>' +
+            '<div class="trait-bar-track">' +
+              '<div class="trait-bar-fill" style="width: ' + val + '%"></div>' +
+            '</div>';
+          barsEl.appendChild(row);
+        });
+
+        // 详情文本
+        document.getElementById("res-features").textContent = topCity.features;
+        document.getElementById("res-reason").textContent = dynamicReason;
+        document.getElementById("res-advantage").textContent = topCity.advantage;
+        document.getElementById("res-egg").textContent = topCity.egg;
+
+        // 备选城市
+        const runnerGrid = document.getElementById("runner-up-grid");
+        runnerGrid.innerHTML = "";
+        result.runners.forEach(function (r) {
+          const div = document.createElement("div");
+          div.className = "runner-up-item";
+          div.innerHTML =
+            '<div class="runner-up-head">' +
+              '<span class="runner-up-name">' + r.city.name + '</span>' +
+              '<span class="runner-up-score">契合 ' + r.matchPct + '%</span>' +
+            '</div>' +
+            '<p class="runner-up-desc">' + r.city.direction + ' · ' + r.city.culture + ' · ' + r.city.food + '</p>';
+          runnerGrid.appendChild(div);
+        });
+
+        // 同步填充分享海报弹窗
+        document.getElementById("share-poster").style.background = topCity.gradient;
+        document.getElementById("modal-match-score").textContent = "契合度 " + result.top.matchPct + "%";
+        document.getElementById("modal-city-name").textContent = topCity.name;
+        document.getElementById("modal-city-archetype").textContent = topCity.archetype + " · " + topCity.direction;
+        document.getElementById("modal-quote").textContent = topCity.quote;
+
+        const pillsEl = document.getElementById("modal-pills");
+        pillsEl.innerHTML =
+          '<span class="share-poster-pill">🌤️ ' + topCity.climate + '</span>' +
+          '<span class="share-poster-pill">🏮 ' + topCity.culture + '</span>' +
+          '<span class="share-poster-pill">🍜 ' + topCity.food + '</span>';
+
+        document.getElementById("modal-summary").textContent =
+          "【隐藏优势】" + topCity.advantage + "\n" + topCity.egg;
+      }
+
+      function getShareText() {
+        if (!state.lastResult) return "";
+        const c = state.lastResult.top.city;
+        const pct = state.lastResult.top.matchPct;
+        return (
+          "测了《测测哪座城市最适合你定居》，我的灵魂栖息地是【" + c.name + "】（契合度 " + pct + "% · " + c.archetype + "）！\n" +
+          c.quote + "\n" +
+          "📍方位：" + c.direction + " | 🌤️气候：" + c.climate + " | 🍜美食：" + c.food + "\n" +
+          c.egg
+        );
+      }
+
+      // 事件绑定
+      btnStart.addEventListener("click", function () {
+        state.currentIdx = 0;
+        state.answers.fill(null);
+        renderQuestion();
+        showView("quiz");
+      });
+
+      btnPrev.addEventListener("click", function () {
+        if (state.currentIdx > 0 && !state.isAnimating) {
+          state.currentIdx -= 1;
+          renderQuestion();
+        }
+      });
+
+      btnRestart.addEventListener("click", function () {
+        state.currentIdx = 0;
+        state.answers.fill(null);
+        state.lastResult = null;
+        showView("home");
+      });
+
+      btnShareCard.addEventListener("click", function () {
+        shareModal.classList.add("open");
+      });
+
+      btnModalClose.addEventListener("click", function () {
+        shareModal.classList.remove("open");
+      });
+
+      shareModal.addEventListener("click", function (e) {
+        if (e.target === shareModal) {
+          shareModal.classList.remove("open");
+        }
+      });
+
+      btnCopyText.addEventListener("click", function () {
+        copyToClipboard(getShareText());
+      });
+
+      btnModalCopy.addEventListener("click", function () {
+        copyToClipboard(getShareText());
+      });
+    })();
+  </script>
+</body>
+</html>
